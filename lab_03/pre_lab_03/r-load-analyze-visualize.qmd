@@ -267,9 +267,17 @@ Questions:
 
 ```         
 1: View the range of your data    
+
+summary(MediaBucks$Salary)
+  Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+      0   42000   60000   64194   78000  770000       4 
 2: Number of rows  
-3: Number of rows cut with filter  
-```
+
+nrow(MediaBucks)
+[1] 1658
+3: Number of rows cut with filter 
+
+rownames(MediaBucks)
 
 <br>
 
@@ -281,7 +289,6 @@ Filter
 WSJ <- subset(MediaBucks, COMPANY=="WallStreetJournal")  
 ```
 
-```{r}
 summary(WSJ$Salary)
 ```
 
@@ -313,12 +320,27 @@ summary(Reporters$Salary)
 Questions:
 
 ```         
-1: Who is making $230,504 as a reporter???   
-2: Make a table for editors, figure out medians.   
-3: Find highest paid editor. Resent them.   
-4: Make a table for any position involving data  
-```
+1: Who is making $230,504 as a reporter??? 
 
+MediaSalary <- MediaBucks %>%
+filter(Salary = 230504)
+
+2: Make a table for editors, figure out medians.
+
+Editors <- subset(MediaBucks, grepl("?editor",TITLE))
+summary(Editors$Salary)
+
+ Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    11.5  45000.0  60240.0  64378.6  75000.0 245000.0 
+    
+3: Find highest paid editor. Resent them.
+
+4: Make a table for any position involving data
+
+Writer <- subset(MediaBucks, grepl("?Writer",TITLE))
+summary(Writer$Salary)
+ Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+     0.02  42000.00  60000.00  59649.87  79000.00 180000.00 
 Table with Black reporters at Wall Street Journal
 
 ```{r}
@@ -401,7 +423,11 @@ How to conduct filter queries from a dataset
 ```
 
 ```{r}
-#your answer here
+
+NYT <- subset(MediaBucks, COMPANY=="NewYorkTimes")
+summary(NYT$Salary)
+ Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    800   50000   52000   69692   55000  350000 
 ```
 
 ```         
@@ -409,7 +435,9 @@ How to conduct filter queries from a dataset
 ```
 
 ```{r}
-#your answer here
+
+NYT_High <- MediaBucks %>% filter (Salary =="350000", COMPANY == "NewYorkTimes")
+
 ```
 
 ```         
@@ -417,8 +445,12 @@ How to conduct filter queries from a dataset
 ```
 
 ```{r}
-#your answer here
 
+Bloom <- subset(MediaBucks, COMPANY=="Bloomberg")
+summary(Bloom$Salary)
+Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  38000   47750   50350   50014   54125   60000 
+  Median is 50350 vs NYT where it is 52000
 ```
 
 ### Tutorials
