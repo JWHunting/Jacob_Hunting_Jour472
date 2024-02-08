@@ -37,6 +37,10 @@ Background on this data from [Social Explorer](https://www.socialexplorer.com/da
 
 # your answer here
 
+MarylandData <- rio::import("lab_03.csv" , which = "RaceData")
+
+View(MarylandData)
+
 ```
 
 
@@ -47,9 +51,18 @@ Q1: Which five cities have the largest overall Hispanic population in 2020? Name
 A1:
 ```{r}
 
-# Write your code in this codeblock.
+hispanic <- MarylandData %>%
+  select(place, x2020_hispanic) %>% 
+  slice_max(x2020_hispanic, n=5)
 
 # your answer here
+City           Population 
+Baltimore City 32627
+Wheaton        22787
+Germantown     21381
+Silver Spring  21087
+Aspen Hill     18635
+The five cities with the highest Hispanic population are Baltimore City, Wheaton, Germantown, Silver Spring and Aspen Hill.
 
 ```
 
@@ -60,7 +73,12 @@ A2:
 ```{r}
 #write your code here
 
+black<- MarylandData %>% 
+  select(place, x2020_black) %>% 
+  arrange(desc(x2020_black))
+
 # your answer here
+Baltimore City had the largest Black population in 2020 with a population of 375,002 followed by Waldorf and Bowie City.
 
 ```
 
@@ -70,6 +88,10 @@ A3:
 
 ```{r}
 
-# your answer here
+hispanic <- MarylandData %>%
+  select(place, x2020_hispanic, x2010_hispanic, x2020_total) %>% 
+  slice_max(x2020_hispanic, n=15)
 
+# your answer here
+In each of the top 15 hispanic populations in 2020 there have been increases in the hispaic population from 2010 to 2020. In particular, Baltimore City has seen an increase of almost 10,000 hispanics. I would take a deeper look at the increase of hispanic populations in Baltimore city versus the increase of the other races in Baltimore City. If the growth is unique or larger than the other races I would investage why that increase exsists. 
 ```
