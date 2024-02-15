@@ -12,9 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 options(scipen=999)
 
 # Load the tidyverse here
+library(tidyverse)
 
 # Load janitor here
-
+library(janitor)
 
 
 ```
@@ -36,6 +37,7 @@ Background on this data from [Social Explorer](https://www.socialexplorer.com/da
 # Write code to load the Maryland race by city, place for 2010 - 2020 and call it md_race.
 # The data is called lab_03.csv, and is in the same folder as lab_03.qmd (this data notebook)
 
+md_races<- read_csv("lab_03.csv") %>% as.data.frame()
 ```
 
 ## Answer questions
@@ -46,10 +48,16 @@ A1:
 ```{r}
 
 # Write your code in this codeblock.
-
-
+top5_hispanic <- md_races %>% 
+  select(place,x2020_hispanic,x2020_total) %>% 
+  mutate(ratio_h=((x2020_hispanic/x2020_total)*100)) %>% 
+  arrange(desc(ratio_h)) %>% 
+  slice_head(n = 5)
 
 ```
+The top 5 cities with the highest percentage of hispanic as a percentage of the total population in 2020 are Langley Park, Templeville Town, Marydel Town, Henderson Town and Edmonston Town. 
+
+
 
 Q2: Compare the top 10 cities with the largest Black population as a percentage of the overall population in 2010 and 2020. Filter for places with more than 20,000 population in 2010. Call your results pct_black. Compare results for 2020 vs 2010. What is different? What surprised you? 
 
@@ -57,17 +65,32 @@ A2:
 
 ```{r}
 #write your code here
-
-
+pct_black <-md_races %>% 
+  select(place, x2010_total, x2010_black, x2020_black, x2020_total) %>% 
+  filter(x2010_total > 20000) %>% 
+  mutate(percent_x2020_black = ((x2020_black/x2020_total)*100),
+         percent_x2010_black = ((x2010_black/x2010_total)*100)) %>% 
+  slice_max(percent_x2020_black, n=10)
+  
+  
 
 ```
+
+Most of the top 10 stayed within +-10% change in black population from 2010 to 2020. One suprising thing was the growth of the black population in Waldorf which in 10 years grew over 10% to 61.64% black.
+
 
 Q3: Find the 15 communities that had the great gains in Hispanic population from 2010 to 2020 as measured by percentage change. Also calculate percentage change for the community's overall growth during the same period. Filter your results for communities with more than 10,000 people as of 2020. Your results will be hisp_growth. Look at your results, craft a one-paragraph story pitch for your editor. 
 
 A3:
 
 ```{r}
-
-
+hisp_growth <- md_races %>% 
+  select(place, x2010_total, x2010_hispanic, x2020_hispanic, x2020_total) %>% 
+  filter(x2020_total > 10000) %>% 
+  mutate(hispanic_growth = 100*(x2020_hispanic-x2010_hispanic)/x2010_hispanic, 
+         total_growth= 100*((x2020_total-x2010_total)/x2010_total))%>% 
+  slice_max(hispanic_growth, n=15)
 
 ```
+
+The first thing that stuck out to me about the data is the explosion of population, both hispanic and total, in North Laurel. I would look at what caused the increase in population and if the infastruce in the area has been able to keep up with the booming population. I would look at schools in particular and if they have been able to handle in the increase in population. I would also look into if a growing job market may have cause the massive move. Overall, I would take a look at why North Laurel has exploded in both hispanic population and total population and if the area can withstand the boom.

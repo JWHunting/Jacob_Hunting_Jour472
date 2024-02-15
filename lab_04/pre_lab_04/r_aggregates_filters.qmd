@@ -13,6 +13,8 @@ To use a library, you need to import it. Put all your library steps at the top o
 
 ```{r}
 library(tidyverse)
+
+options(scipen=999)
 ```
 
 ## Importing data
@@ -300,6 +302,29 @@ baltcity_income %>%
 .4825 o4 48.25% 
 48.25% of neighborhoods are below the media household income.
 Answer this question in English: Write in Elms
+
+
+
+baltcity_race<- read_csv("baltcity_race_8_13.csv") 
+
+```{r}
+baltcity_race<- read_csv("baltcity_race_8_13.csv")  
+
+baltcity_race %>%
+select(census_tract,x2020_white,x2020_black) %>% 
+mutate(ratio_w_b=x2020_black/x2020_white) %>% 
+arrange(desc(ratio_w_b))
+
+sum(baltcity_race$x2020_white, na.rm = TRUE)
+
+```
+```{r}
+baltcity_race<- read_csv("baltcity_race_8_13.csv")  
+
+baltcity_race %>%
+select(census_tract,x2020_white) %>% 
+mutate(pct_white=x2020_white/sum(baltcity_race$x2020_white, na.rm = TRUE)) %>% 
+arrange(desc(pct_white))
 
 
 
