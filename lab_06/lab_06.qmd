@@ -15,6 +15,12 @@ When you are finished, commit changes and push to your personal GitHub repo, the
 options(scipen=999)
 
 # Load the tidyverse,rvest,janitor
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(rvest)
 
 ```
 
@@ -31,13 +37,30 @@ Write a headline and caption.
 
 **A1**
 
-```{r}
+```{r, message=FALSE}
+ADS1 <- read_csv("ncaa_athletic_dirs.csv")
 
-#your answer here
+
+NCAA21 <- ADS1 %>% 
+filter(year == "2021")
+
+NCAA21 %>% 
+  group_by(race_sex) %>% 
+  arrange(desc(count)) %>% 
+ggplot(aes(x=race_sex, y=count, weight=count, fill = count))+
+  geom_col() +
+  labs(title = "Athletic Directors by Race and Sex", 
+       subtitle = "NCAA Data, 2021",
+       y="Count",
+       x="Race/Gender")
+
+
+```
+
 
  
 
-```
+
 
 Q2. Now create a second chart using ads1 (ncaa_athletic_dirs) into a chart of columns with years on the x axis.
 Write a headline and caption.
@@ -45,9 +68,14 @@ Write a headline and caption.
 **A2**
 
 ```{r}
-#your answer here  
 
-
+ADS1 %>% 
+ggplot(aes(x=year, y=count, fill = race_sex))+
+  geom_col(position = "dodge")+
+  labs(title = "Athletic Directors by Race and Sex", 
+       caption = "Source: NCAA",
+       y="Count",
+       x="Year")
 
 ```
 
@@ -65,9 +93,22 @@ Designate one line for each and a separate color: ie male_white would be blue, f
 
 **A3.**
 
-```{r}
+```{r message=FALSE}
 
-#your answer here
+ads2 <- read_csv("Sports_Race_ADs.csv", skip =1)
+ads2 <- clean_names(ads2)
 
+ggplot(ads2, aes(x=year))+
+  geom_line(aes(y=male_white), color = "blue") +
+  geom_line(aes(y=male_black), color = "orange") +
+  geom_line(aes(y=male_other), color = "purple") +
+  geom_line(aes(y=female_white), color = "yellow") +
+  geom_line(aes(y=female_black), color = "red") +
+  geom_line(aes(y=female_other), color = "pink") +
+  labs(
+    title = "NCAA Athletic Directors by Race and Sex from 2015-2021",
+    x = "Year",
+    Y = "Count by Race and Sex",
+    caption = "Source: NCAA")
 
 ```
