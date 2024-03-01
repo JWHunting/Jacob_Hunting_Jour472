@@ -74,14 +74,12 @@ pct_white <-Balt_race %>%
          percent_x2010_white = ((x2010_white/x2010_total)*100)) %>% 
   slice_max(percent_x2020_white, n=3)
 
-pct_white1<-Balt_income %>% 
-  filter(GEOID == "24510010500")
 
-pct_white2<-Balt_income %>% 
-  filter(GEOID == "24510240400")
+white <-Balt_income
+filter(change,GEOID=="24510010500"| GEOID=="24510240400"|GEOID=="24510130600")
 
-pct_white3<-Balt_income %>% 
-  filter(GEOID == "24510130600")
+black <-Balt_income
+filter(change,GEOID=="24510150200"| GEOID=="24510160802"|GEOID=="24510150701")
 
 ```
 
