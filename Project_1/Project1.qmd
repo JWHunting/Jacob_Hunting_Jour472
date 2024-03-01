@@ -1,0 +1,105 @@
+
+```{r}
+
+options(scipen=999)
+library(tidyverse)
+library(janitor)
+library(rvest)
+library(ggplot2)
+library(dplyr)
+```
+
+#load codes 
+```{r}
+Balt_race <- (read.csv("baltcity_race_8_13.csv"))
+  
+Balt_income <- (read.csv("baltcity_income_clean.csv"))
+
+```
+
+#Background: these two data sets show the total population broken down by race in 2010 and 2020, and the median household income from each of the neighborhoods in Baltimore. Using the GEOID we can match the data points up.
+
+#Questions
+1. What is the distribution of meadian household income in Baltimore in 2020?
+2. What is the racial distribution in the poorest neighborhood in Baltimore ?
+3. Is there a correlation between median income and racial distribution in the top 10 majority black neighborhoods and top 10 majority white neighborhoods?
+4. How has changing populations changed median household incomes?
+
+
+```{r}
+income <-Balt_income
+income %>% 
+  ggplot(aes(x = GEOID, y = x2020, fill = x2020)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Median Income", 
+       caption = "Data from Baltimore City Income",
+       y="Average Median Income",
+       x="GEOID")
+
+
+```
+
+
+```{r}
+poorest<-Balt_income %>%
+  select(Neighborhood, x2010, GEOID) %>% 
+  slice_max(x2010, n=5)
+
+racial_disp<-Balt_race %>% 
+  filter(geoid == "24510271200")
+
+
+#racial_disp %>%
+  #ggplot() +
+  #geom_bar(aes(x=race, weight=n))
+  
+```
+#The poorest neighborhood in Baltimore according to the data is North Baltimore/Guilford/Homeland and the racial distribution shows in 2010 and 2020 a majority white population in this neighborhood.
+
+
+#Professor Wells: I was trying to get this table to be in graph format but eveything I tried gave me errors, I believe because of the multiple varibles. I included what I was trying to do but wasn't successful with. Is there a way to combine the data sets where I could make it so the geoids matched the populations and racial dsitripution?
+
+
+```{r}
+
+pct_black <-Balt_race %>% 
+  select(geoid, x2010_total, x2010_black, x2020_black, x2020_total) %>% 
+  mutate(percent_x2020_black = ((x2020_black/x2020_total)*100),
+         percent_x2010_black = ((x2010_black/x2010_total)*100)) %>% 
+  slice_max(percent_x2020_black, n=3)
+
+pct_white <-Balt_race %>% 
+  select(geoid, x2010_total, x2010_white, x2020_white, x2020_total) %>% 
+  mutate(percent_x2020_white = ((x2020_white/x2020_total)*100),
+         percent_x2010_white = ((x2010_white/x2010_total)*100)) %>% 
+  slice_max(percent_x2020_white, n=3)
+
+pct_white1<-Balt_income %>% 
+  filter(GEOID == "24510010500")
+
+pct_white2<-Balt_income %>% 
+  filter(GEOID == "24510240400")
+
+pct_white3<-Balt_income %>% 
+  filter(GEOID == "24510130600")
+
+```
+
+#Using the top 3 most white and most black neighborhoods we can cross referce this with where they are in median income. The three most white include Fells Point with median incomes of 86,157 in 2010, 85,986 in 2016, and 98,194 in 2020.
+
+
+
+```{r}
+pct_change <-Balt_race %>% 
+  select(geoid, x2010_total, x2020_total) %>% 
+  mutate(percent_change = (x2020_total-x2010_total/x2010_total)) %>% 
+  slice_max(percent_change, n=3)
+
+change <-Balt_income
+filter(change,GEOID=="24510151100"| GEOID=="24510260302"|GEOID=="24510271200")
+
+```
+
+#According to this table the three neighborhoods with the biggesr growths also saw increases in median income showing that in these three cases the growth in population is correlated to a growth in median household income.
+
+
