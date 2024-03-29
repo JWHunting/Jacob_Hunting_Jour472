@@ -234,9 +234,6 @@ What tidyverse method described in this lab would you use to clean the state col
 
 You don't need to write code, just explain in English on ELMS.
 
-Answer
-I would use the mutate function to group all the Maryland entries together and mutate them to all Uppercase MD so when grouped or filtered they could all come up as MD. Cleaning the state column through mutate should give all the data the same value making it easier to work with.
-
 ## Resources
 
 -   The "[Relational data](https://r4ds.had.co.nz/relational-data.html)" chapter in the R for Data Science textbook has details on exactly how a complex data set might fit together.

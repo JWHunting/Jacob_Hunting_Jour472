@@ -1,0 +1,5 @@
+"0","white_pop <- white_population %>% "
+"0","  mutate(white_pop=case_when("
+"0","    name == ""Somerset County, Maryland""~white_pop/1000, TRUE ~ white_pop)) %>% "
+"0","summarize(white_pop=sum(white_pop))"
+"0",""

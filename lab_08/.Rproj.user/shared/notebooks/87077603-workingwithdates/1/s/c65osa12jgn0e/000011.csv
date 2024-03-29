@@ -1,0 +1,6 @@
+"0","maryland_expenses <- maryland_expenses %>% mutate(expenditure_date=mdy(expenditure_date))"
+"2","Warning: [38;5;232mThere was 1 warning in `mutate()`.[39m
+[38;5;232m[36mℹ[38;5;232m In argument: `expenditure_date = mdy(expenditure_date)`.[39m
+Caused by warning:
+[33m![39m All formats failed to parse. No formats found."
+"0","head(maryland_expenses)"

@@ -1,0 +1,4 @@
+"0","SF <- janitor::clean_names(SF)"
+"0","#Process dates"
+"0","SF$call_date2 <- ymd(SF$call_date)"
+"0","SF$year <- year(SF$call_date2)"
