@@ -16,8 +16,8 @@ Load libraries as usual. You will need to install sf and leaflet
 
 ```{r}
 
-install.packages('sf')
-install.packages('leaflet')
+#install.packages('sf')
+#install.packages('leaflet')
 
 library(tidyverse)
 library(janitor)
@@ -38,7 +38,7 @@ This is a special kind of dataframe called an "SF" dataframe, meaning it has loc
 
 ```{r}
 
-pg_elementary_school_locations <- read_rds("assets/pg_elementary_school_locations.rds")
+pg_elementary_school_locations <- read_rds("assets/data/pg_elementary_school_locations.rds")
 
 pg_elementary_school_locations
 
@@ -60,7 +60,7 @@ Let's load an outline of the county to make it more explicit. Unlike the schools
 
 ```{r}
 
-pg_county <- read_rds("assets/pg_county.rds")
+pg_county <- read_rds("assets/data/pg_county.rds")
 
 ```
 
@@ -115,7 +115,7 @@ leaflet() %>%
 We can join information about each school with our geographic data, and represent that on a map.  In this case, we're going to load data about the "attendance rate" from the Maryland Dept. of Education for each Prince George's County elementary school. It ranges from 99 percent to 79 percent.
 
 ```{r}
-attendance <- read_rds("assets/attendance.rds")
+attendance <- read_rds("assets/data/attendance.rds")
 
 attendance
 ```
@@ -158,7 +158,7 @@ First, let's load a spatial dataframe of Census tracts with income information a
 
 ```{r}
 
-pg_tract_income <- read_rds("assets/pg_tract_income.rds")
+pg_tract_income <- read_rds("assets/data/pg_tract_income.rds")
 
 pg_tract_income
 
@@ -227,9 +227,6 @@ Answer this question in English: Write in Elms
 
 Develop two questions that you could answer with a spatial join as described in this chapter, outside of the domain of education.  Briefly describe the two geographic dataframes you would need to answer each question.   
 
-For the first question I would look at answer if there is a correlation between race data and income data in PG County. I would spatial join racial demographic data because of Bowie's rich history and diverse population. I would use census race data and inter join it with the income data to compare.
-
-For the second I would look at the school funding data and look at school budgets in the country and if its different across the more populated schools. I would join budget data and school popualtion to see if there is a correlation between popualtion and funding.
 
 
 

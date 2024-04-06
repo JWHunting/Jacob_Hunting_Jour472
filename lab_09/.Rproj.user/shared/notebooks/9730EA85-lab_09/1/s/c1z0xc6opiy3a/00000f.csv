@@ -1,0 +1,5 @@
+"0","majority_white <- demographics %>%"
+"0","  mutate(pct_white = white_pop/total_pop) %>%"
+"0","  mutate(neighborhood_type = case_when("
+"0","    pct_white > .50 ~ ""majority white"","
+"0","    TRUE ~ ""non majority white""))"

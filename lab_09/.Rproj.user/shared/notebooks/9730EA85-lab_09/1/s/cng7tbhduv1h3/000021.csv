@@ -1,0 +1,6 @@
+"0","balt_maj_white_geo <- majority_white %>%"
+"0","  inner_join(shapefiles) %>%"
+"0","  st_as_sf() %>%"
+"0","  st_join(homicides) %>%"
+"0","  as_tibble()"
+"2","Joining with `by = join_by(geoid, name)`"

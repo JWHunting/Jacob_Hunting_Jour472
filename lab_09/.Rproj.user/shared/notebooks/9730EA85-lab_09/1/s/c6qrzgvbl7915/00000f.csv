@@ -1,0 +1,6 @@
+"0",""
+"0","homicides <- read_rds(""data/baltimore_homicides.rds"")"
+"0","demographics <- read_rds(""data/baltimore_tract_demographics.rds"")"
+"0","shapefiles <- read_rds(""data/baltimore_tract_shapefiles.rds"")"
+"0",""
+"0",""
