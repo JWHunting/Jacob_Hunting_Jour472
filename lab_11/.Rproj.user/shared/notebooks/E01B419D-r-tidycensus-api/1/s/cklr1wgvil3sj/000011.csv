@@ -1,0 +1,52 @@
+"0","install.packages(""tidycensus"")"
+"2","WARNING: Rtools is required to build R packages but is not currently installed. Please download and install the appropriate version of Rtools before proceeding:
+
+https://cran.rstudio.com/bin/windows/Rtools/
+"
+"2","Installing package into ‘C:/Users/sabre/AppData/Local/R/win-library/4.3’
+(as ‘lib’ is unspecified)
+"
+"2","also installing the dependency ‘tigris’
+
+"
+"2","trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/tigris_2.1.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 361256 bytes (352 KB)
+"
+"2","downloaded 352 KB
+
+"
+"2","trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.3/tidycensus_1.6.3.zip'
+"
+"2","Content type 'application/zip'"
+"2"," length 3424781 bytes (3.3 MB)
+"
+"2","downloaded 3.3 MB
+
+"
+"1","package ‘tigris’ successfully unpacked and MD5 sums checked
+"
+"1","package ‘tidycensus’ successfully unpacked and MD5 sums checked
+"
+"1","
+"
+"1",""
+"1","The downloaded binary packages are in
+	C:\Users\sabre\AppData\Local\Temp\RtmpEnjEy1\downloaded_packages"
+"1",""
+"1","
+"
+"0","library(tidyverse)"
+"0","library(tidycensus)"
+"2","Warning: package ‘tidycensus’ was built under R version 4.3.3"
+"0","library(janitor)"
+"2","
+Attaching package: ‘janitor’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    chisq.test, fisher.test
+
+"

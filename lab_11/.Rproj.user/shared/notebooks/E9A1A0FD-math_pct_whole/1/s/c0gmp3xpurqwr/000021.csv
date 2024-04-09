@@ -1,0 +1,4 @@
+"0","baltcity_income_2020 <- baltcity_income %>% "
+"0","  select(Census, Neighborhood, x2020) %>% "
+"0","  mutate(pct_whole=(x2020/ (sum(x2020))*100)) "
+"0",""

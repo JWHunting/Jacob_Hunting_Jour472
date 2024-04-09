@@ -1,0 +1,7 @@
+"0","male_2020 <- get_acs(geography=""state"","
+"0","                variables=c(male_population = ""B01001_002"",total_population = ""B01003_001""), year=2020, output=""wide"") %>%"
+"0","    select(total_populationE, male_populationE, NAME) %>%"
+"0","  mutate(pct_male = male_populationE/total_populationE*100) %>% "
+"0","arrange(desc(pct_male))"
+"2","Getting data from the 2016-2020 5-year ACS
+"

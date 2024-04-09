@@ -1,0 +1,8 @@
+"0","census_api_key(""77f646823d096955266aa8f33f6143ba88b313f6"", install=TRUE, overwrite = TRUE)"
+"2","Your API key has been stored in your .Renviron and can be accessed by Sys.getenv(""CENSUS_API_KEY""). 
+To use now, restart R or run `readRenviron(""~/.Renviron"")`
+"
+"1","[1]"
+"1"," ""77f646823d096955266aa8f33f6143ba88b313f6"""
+"1","
+"
