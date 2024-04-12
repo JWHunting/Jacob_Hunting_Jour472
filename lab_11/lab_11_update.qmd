@@ -1,11 +1,8 @@
-#lab_11
-Rob Wells, April 11, 2024
+#lab_11 Rob Wells, April 11, 2024
 
 ## About this lab
 
-To complete this lab, you need to:
-* write code in empty codeblocks provided to answer questions included (look for **Q**).
-* write out the answer in the form of a complete sentence in the space given (look for **A**).
+To complete this lab, you need to: \* write code in empty codeblocks provided to answer questions included (look for **Q**). \* write out the answer in the form of a complete sentence in the space given (look for **A**).
 
 When you are finished, commit changes and push to your personal GitHub repo, then submit the URL to this document on ELMS.
 
@@ -13,18 +10,17 @@ When you are finished, commit changes and push to your personal GitHub repo, the
 
 There are three main goals of this lab:
 
-* learn to make use of R packages that can access data via third-party APIs.
-* learn to develop a quick and accurate understanding of what data can be obtained via third-party APIs. 
-* learn to develop questions that can be answered using that data, and avoid developing questions that cannot. 
+-   learn to make use of R packages that can access data via third-party APIs.
+-   learn to develop a quick and accurate understanding of what data can be obtained via third-party APIs.
+-   learn to develop questions that can be answered using that data, and avoid developing questions that cannot.
 
 ## APIs to choose from
- 
 
-* tidycensus - for asking census-related questions.
+-   tidycensus - for asking census-related questions.
 
 ## Load libraries
 
-**Task**: load the tidyverse and janitor.  Uncomment the one other package you plan to work with.  Do not choose more than one API package.
+**Task**: load the tidyverse and janitor. Uncomment the one other package you plan to work with. Do not choose more than one API package.
 
 ```{r}
 library(tidyverse)
@@ -38,21 +34,19 @@ library(dplyr)
 
 ### tidycensus
 
-Use the U.S. census access token you created for this week's lab.  You can store it by editing the block below to replace 'YOUR KEY HERE' with your actual key, a long string of letters and numbers. If you need to sign up for another one, you can do so here:  [apply for an API key with the Census Bureau](https://api.census.gov/data/key_signup.html). 
+Use the U.S. census access token you created for this week's lab. You can store it by editing the block below to replace 'YOUR KEY HERE' with your actual key, a long string of letters and numbers. If you need to sign up for another one, you can do so here: [apply for an API key with the Census Bureau](https://api.census.gov/data/key_signup.html).
 
 ```{r}
 census_api_key("4a5565f7bebc7cd034e85e374e1ddcc929798252", overwrite = TRUE, install = TRUE)
 ```
 
-
-
 ### tidycensus
 
 This package is designed to help you pull demographic information about different U.S. geographies.
 
-* Basic usage https://walker-data.com/tidycensus/articles/basic-usage.html
-* Functions: https://walker-data.com/tidycensus/reference/index.html
-* More details https://walker-data.com/tidycensus/
+-   Basic usage https://walker-data.com/tidycensus/articles/basic-usage.html
+-   Functions: https://walker-data.com/tidycensus/reference/index.html
+-   More details https://walker-data.com/tidycensus/
 
 Sample question: which state saw the largest growth in Hispanic population between 2010 and 2020?
 
@@ -80,38 +74,101 @@ md <- get_acs(geography = "county",
 
 ### Develop and answer questions
 
-**Task** Develop two different *interesting* questions that you can answer with the data. Run them by your professor before getting started on answering, to ensure they're sufficiently interesting and possible with the data. 
+**Task** Develop two different *interesting* questions that you can answer with the data. Run them by your professor before getting started on answering, to ensure they're sufficiently interesting and possible with the data.
+**Task** Write code to answer the questions. Write up a sentence with each of your findings. Produce at least one visualization to support one of your findings.
 
 #Questions
 
-1) Is there a significant difference in the percentage of young adults (25-35) in state such as New York or California in comparison to rural areas such as Kansas or Wisconsin?
+1)  Is there a significant difference in the percentage of young adults (25-35) in state such as New York or California in comparison to rural areas such as Kansas or Wisconsin?
+
 ```{r}
 ny <- get_acs(geography = "state",
-              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036" , total = "B01001_001"),
+              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036"),
               state = "NY",
               year = 2020) 
 
-ny_filter <- ny %>% 
-  select(variable, estimate, NAME) %>% 
-  filter(variable == "m25_29" , "m30_34" , "f25_29" , "f30_34")
+ny_total <- get_acs(geography = "state",
+              variables = c(total = "B01001_001"),
+              state = "NY",
+              year = 2020) 
+
+(sum(ny$estimate)/sum(ny_total$estimate))*100
+#14.68 of the population of New York is people age 24-34.
+
 ```
+
+
 ```{r}
 ca <- get_acs(geography = "state",
-              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036" , total = "B01001_001"),
+              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036"),
               state = "CA",
               year = 2020) 
 
+ca_total <- get_acs(geography = "state",
+              variables = c(total = "B01001_001"),
+              state = "CA",
+              year = 2020) 
+
+(sum(ca$estimate)/sum(ca_total$estimate))*100
+#15.27 of the population of California is people age 24-34.
+
+```
+```{r}
 ks <- get_acs(geography = "state",
-              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036" , total = "B01001_001"),
+              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036"),
               state = "KS",
               year = 2020) 
 
+ks_total <- get_acs(geography = "state",
+              variables = c(total = "B01001_001"),
+              state = "KS",
+              year = 2020) 
+
+(sum(ks$estimate)/sum(ks_total$estimate))*100
+#13.13 of the population of Kansas is people age 24-34. 
+```
+
+```{r}
 wi <- get_acs(geography = "state",
-              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036" , total = "B01001_001"),
+              variables = c(m25_29 = "B01001_011" , m30_34 = "B01001_012" , f25_29 = "B01001_035" , f30_34 = "B01001_036"),
               state = "WI",
               year = 2020) 
+
+wi_total <- get_acs(geography = "state",
+              variables = c(total = "B01001_001"),
+              state = "WI",
+              year = 2020) 
+
+(sum(wi$estimate)/sum(wi_total$estimate))*100
+#12.67 of the population of Wisconsin is people age 24-34.
 ```
-2) Is there a noticeable difference between the median age in states with cooler weather such as Alaska or Washington and states with warmer weather such as Hawaii and Florida?
+There is a small drop in percentage of the population being young adults (24-34) from states with bigger cities such as New York and California to states like Kansas and Wisconsin where the largest city isn't as big. However the percentage drop is only around 3% which is a small drop.
 
-**Task** Write code to answer the questions.  Write up a sentence with each of your findings. Produce at least one visualization to support one of your findings. 
 
+
+2)  Is there a noticeable difference between the median age in states with cooler weather such as Alaska or Washington and states with warmer weather such as Hawaii and Florida?
+
+```{r}
+ak <- get_acs(geography = "state",
+              variables = c(median_age = "B01002_001"),
+              state = "AK",
+              year = 2020)
+#Alaska's median age is 34.6.
+wa <- get_acs(geography = "state",
+              variables = c(median_age = "B01002_001"),
+              state = "WA",
+              year = 2020)
+#Washington's median age is 37.8
+hi <- get_acs(geography = "state",
+              variables = c(median_age = "B01002_001"),
+              state = "HI",
+              year = 2020)
+#Hawaii's median age is 39.4
+fl <- get_acs(geography = "state",
+              variables = c(median_age = "B01002_001"),
+              state = "FL",
+              year = 2020)
+#Flordia's median age is 42.2
+
+#The two states with the colder weather do have lower median ages than the states with warmer weather. This could be because of Florida and Hawaii retirement populations.
+```
