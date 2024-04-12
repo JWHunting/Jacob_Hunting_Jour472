@@ -1,0 +1,6 @@
+"0",""
+"0","###"
+"0","# Load ACS variables"
+"0","###"
+"0",""
+"0","acs_vars <- load_variables(""acs5"", year=2020)"
