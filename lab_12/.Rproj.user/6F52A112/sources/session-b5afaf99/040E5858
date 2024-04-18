@@ -1,26 +1,26 @@
 {
-    "id": "639B555A",
-    "path": "~/GitHub/Jacob_Hunting_Jour472/lab_12/r-scraping.qmd",
-    "project_path": "r-scraping.qmd",
+    "id": "040E5858",
+    "path": "~/GitHub/Jacob_Hunting_Jour472/lab_12/lab_12.qmd",
+    "project_path": "lab_12.qmd",
     "type": "quarto_markdown",
-    "hash": "2748869940",
+    "hash": "595941486",
     "contents": "",
     "dirty": false,
-    "created": 1713315631774.0,
+    "created": 1713467696414.0,
     "source_on_save": false,
     "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "180,356",
-        "scrollLine": "170"
+        "cursorPosition": "108,55",
+        "scrollLine": "97"
     },
     "folds": "",
-    "lastKnownWriteTime": 1713316213,
+    "lastKnownWriteTime": 1713473814,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1713316213862,
+    "last_content_update": 1713473814949,
     "read_only": false,
     "read_only_alternatives": []
 }

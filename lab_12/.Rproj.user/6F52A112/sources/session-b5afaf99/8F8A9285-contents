@@ -1,0 +1,166 @@
+#Jacob Hunting Project 1
+
+```{r}
+
+options(scipen=999)
+library(tidyverse)
+library(janitor)
+library(rvest)
+library(ggplot2)
+library(dplyr)
+```
+
+#load codes 
+```{r}
+Balt_race <- (read.csv("baltcity_race_8_13.csv"))
+  
+Balt_income <- (read.csv("baltcity_income_clean.csv"))
+
+Upton_Druid_Heights <- (read.csv("Upton_Druid_Heights_Data - Sheet1.csv"))
+
+```
+
+#Background: these two data sets show the total population broken down by race in 2010 and 2020, and the median household income from each of the neighborhoods in Baltimore. Using the GEOID we can match the data points up.
+
+#Questions
+1. What is the distribution of median household income in Baltimore in 2020?
+2. What is the racial distribution in the poorest neighborhood in Baltimore in 2020 ?
+3. Is there a correlation between median income and racial distribution in the top 3 majority black neighborhoods and top 3 majority white neighborhoods?
+4. How has changing populations changed median household incomes?
+
+
+```{r}
+income <-Balt_income
+income %>% 
+  ggplot(aes(x = Neighborhood, y = x2020, fill = x2020)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Median Income", 
+       caption = "Data from Baltimore City Income",
+       y="Average Median Income",
+       x="Neighborhoods")
+summary(income)
+
+
+```
+
+
+```{r}
+poorest<-Balt_income %>%
+  inner_join(Balt_race, by=c("GEOID"="geoid")) %>% 
+  slice_min(x2020, n=1)
+```
+
+
+```{r}
+Upton_Druid_Heights <- (read.csv("Upton_Druid_Heights_Data - Sheet1.csv"))
+
+Upton_Druid_Heights %>% 
+ group_by(X2020_race) %>% 
+  arrange(desc(count)) %>% 
+ggplot(aes(x=X2020_race, y=count, weight=count, fill = count))+
+  geom_col() +
+  labs(title = "Upton/Druid Heights Racial Breakdown in 2020", 
+       subtitle = "Baltimore Data, 2020",
+       y="Count",
+       x="Race")
+  
+```
+#The poorest neighborhood in Baltimore according to the data is Upton/Druid Heights and the racial distribution shows in 2020 a majority black population in this neighborhood.
+
+
+
+
+```{r}
+
+pct_black <-Balt_race %>% 
+  inner_join(Balt_income, by=c("geoid"="GEOID")) %>% 
+  select(geoid, x2010_total, x2010_black, x2020_black, x2020_total, Neighborhood, x2010, x2016, x2020) %>% 
+  mutate(percent_x2020_black = ((x2020_black/x2020_total)*100),
+         percent_x2010_black = ((x2010_black/x2010_total)*100)) %>% 
+  slice_max(percent_x2020_black, n=3)
+
+pct_white <-Balt_race %>%
+  inner_join(Balt_income, by=c("geoid"="GEOID")) %>% 
+  select(geoid, x2010_total, x2010_white, x2020_white, x2020_total, Neighborhood, x2010, x2016, x2020) %>% 
+  mutate(percent_x2020_white = ((x2020_white/x2020_total)*100),
+         percent_x2010_white = ((x2010_white/x2010_total)*100)) %>% 
+  slice_max(percent_x2020_white, n=3)
+```
+
+```{r message=FALSE}
+Pct_Top_three <- (read.csv("Top_Three_Data - Sheet1.csv"))
+
+  ggplot(Pct_Top_three, aes(x=Year))+
+  geom_line(aes(y=Fells.Point), color = "blue") +
+  geom_line(aes(y=South.Baltimore), color = "orange") +
+  geom_line(aes(y=Medfield.Hampden.Woodberry.Remington), color = "purple") +
+  geom_line(aes(y=Sandtown.Winchester.Harlem.Park), color = "yellow") +
+  geom_line(aes(y=Edmondson.Village), color = "red") +
+  geom_line(aes(y=Greater.Mondawmin), color = "pink") +
+     labs(
+    title = "The Median Household Income of the Three Neighborhoods with the Highest Percentage of White and Black Residents in 2020",
+    x = "Year",
+    Y = "Average Median Household Income",
+    caption = "Source: Baltimore Data")
+
+
+```
+
+#Using the top three most white and most black neighborhoods we can cross referce this with where they are in median income. We can see according to this data the three white majority neighborhoods are significantly higher than the three majority black neighborhoods across the ten years.
+
+
+
+```{r}
+pct_change <-Balt_race %>% 
+  select(geoid, x2010_total, x2020_total) %>% 
+  mutate(percent_change = (x2020_total-x2010_total/x2010_total)) %>% 
+  slice_max(percent_change, n=3)
+
+change <-Balt_income
+filter(change,GEOID=="24510151100"| GEOID=="24510260302"|GEOID=="24510271200")
+
+```
+
+#According to this table the three neighborhoods with the biggest growths also saw increases in median income showing that in these three cases the growth in population is correlated to a growth in median household income.
+
+
+#Story Memo
+Upon researching the correlation between racial data and median household income in Baltimore from 2010 to 2020 there are a few interesting data points that could turn into full stories and even more data analysis.  Looking at the poorest neighborhood in Baltimore firstly, according to data from 2020 it is a majority-black neighborhood. Looking into why exactly this neighborhood fell so far behind and how that has affected schools, jobs and other programs that could be affected by the poverty in this area. Next looking at the data from the three neighborhoods in Baltimore with the highest percentage of white residents vs the three neighborhoods with the highest percentage of black residents we can see a trend in that data. All three of the white neighborhoods have trended up from 2010-2020 and all have a household median income of over 90,000 in 2020. On the opposite side, the three neighborhoods with the highest percentage of black residents showed two of the three trending down from 2016 to 2020 and all three are under 52,000 dollars just over half of the majority white neighborhoods median income. Finally, I looked at whether changing populations impacted median household income in the three neighborhoods with the highest change in population from 2010 to 2020. In this table, it showed that the three neighborhoods with the highest percentage change showed significant increases in median household income. To expand this point further take a look at these three neighborhoods and see what has driven this expansion in population and how schools, jobs, hospitals, fire rescue/police and social services have had to adapt. Also looking at whether the increase in median household income has driven more money to the previously mentioned services or if are they now underfunded with a higher population.
+
+Tweets:
+
+The breakdown of the poorest neighborhood in Baltimore shows according to the 2020 census, Upton/Druid Heights is not only majority black but one of the highest percentages of black residents in the city.
+ 
+```{r}
+Upton_Druid_Heights <- (read.csv("Upton_Druid_Heights_Data - Sheet1.csv"))
+
+Upton_Druid_Heights %>% 
+ group_by(X2020_race) %>% 
+  arrange(desc(count)) %>% 
+ggplot(aes(x=X2020_race, y=count, weight=count, fill = count))+
+  geom_col() +
+  labs(title = "Upton/Druid Heights Racial Breakdown in 2020", 
+       subtitle = "Baltimore Data, 2020",
+       y="Count",
+       x="Race")
+  
+```
+Data shows a correlation between the highest percentage of white-population neighborhoods and the highest percentage of black-population neighborhoods. Two of the three highest percentages of the black population have seen the median household income fall since 2016 and all three are under 52,000 dollars. Meanwhile, the three neighborhoods with the highest white populations have all increased since 2010 and are over 90,000 dollars.
+```{r message=FALSE}
+Pct_Top_three <- (read.csv("Top_Three_Data - Sheet1.csv"))
+
+  ggplot(Pct_Top_three, aes(x=Year))+
+  geom_line(aes(y=Fells.Point), color = "blue") +
+  geom_line(aes(y=South.Baltimore), color = "orange") +
+  geom_line(aes(y=Medfield.Hampden.Woodberry.Remington), color = "purple") +
+  geom_line(aes(y=Sandtown.Winchester.Harlem.Park), color = "yellow") +
+  geom_line(aes(y=Edmondson.Village), color = "red") +
+  geom_line(aes(y=Greater.Mondawmin), color = "pink") +
+     labs(
+    title = "The Median Household Income of the Three Neighborhoods with the Highest Percentage of White and Black Residents in 2020",
+    x = "Year",
+    Y = "Average Median Household Income",
+    caption = "Source: Baltimore Data")
+
+
+```
